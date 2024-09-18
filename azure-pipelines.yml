@@ -26,13 +26,15 @@ stages:
     displayName: Ubuntu 24.04 Build
     continueOnError: false
     steps:
-      - bash: |
-          set -euo pipefail
-          scripts/build_x86_64.sh unix-rel
-          mkdir -p "$(Build.SourcesDirectory)/artifacts"
-          tar -zcf "$(Build.SourcesDirectory)/artifacts/build.tar.gz" "build"
-        displayName: Cmake Build & Package
-
+      # - bash: |
+      #     set -euo pipefail
+      #     scripts/build_x86_64.sh unix-rel
+      #     mkdir -p "$(Build.SourcesDirectory)/artifacts"
+      #     tar -zcf "$(Build.SourcesDirectory)/artifacts/build.tar.gz" "build"
+      #   displayName: Cmake Build & Package
+      - task: CMake@1
+        inputs:
+          cmakeArgs: 
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: "$(Build.SourcesDirectory)/artifacts"
