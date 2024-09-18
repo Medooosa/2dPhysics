@@ -6,14 +6,34 @@
 trigger:
 - main
 
+pr:
+- main
+
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+resources:
+  containers:
+    - container: ubuntu-custom
+      image: mattgomes28/cpp-ubuntu-bionic:0.7
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+stages:
+- stage: build
+  displayName: Build Stage
+  jobs:
+  - job: build_ubuntu_x86_64
+    container: ubuntu-custom
+    displayName: Ubuntu 18.04 Build
+    continueOnError: false
+    steps:
+      - bash: |
+          set -euo pipefail
+          scripts/build_x86_64.sh unix-rel
+          mkdir -p "$(Build.SourcesDirectory)/artifacts"
+          tar -zcf "$(Build.SourcesDirectory)/artifacts/build.tar.gz" "build"
+        displayName: Cmake Build & Package
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: "$(Build.SourcesDirectory)/artifacts"
+          artifactName: UbuntuRelBuild
