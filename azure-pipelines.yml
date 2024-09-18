@@ -32,10 +32,10 @@ stages:
       #     mkdir -p "$(Build.SourcesDirectory)/artifacts"
       #     tar -zcf "$(Build.SourcesDirectory)/artifacts/build.tar.gz" "build"
       #   displayName: Cmake Build & Package
-      - task: CMake@1
-        inputs:
-          cmakeArgs: --build ./build --config Debug
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: "$(Build.SourcesDirectory)"
           artifactName: UbuntuRelBuild
+      - task: CMake@1
+        inputs:
+          cmakeArgs: --build . --config Debug
