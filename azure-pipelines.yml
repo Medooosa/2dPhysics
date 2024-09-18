@@ -34,8 +34,8 @@ stages:
       #   displayName: Cmake Build & Package
       - task: CMake@1
         inputs:
-          cmakeArgs: 
+          cmakeArgs: --build ./build --config Debug
       - task: PublishPipelineArtifact@1
         inputs:
-          targetPath: "$(Build.SourcesDirectory)/artifacts"
+          targetPath: "$(Build.SourcesDirectory)"
           artifactName: UbuntuRelBuild
