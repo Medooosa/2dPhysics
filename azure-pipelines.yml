@@ -23,7 +23,7 @@ stages:
   jobs:
   - job: build_ubuntu_x86_64
     container: ubuntu-custom
-    displayName: Ubuntu 18.04 Build
+    displayName: Ubuntu 24.04 Build
     continueOnError: false
     steps:
       - bash: |
